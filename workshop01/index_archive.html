@@ -15,7 +15,8 @@
           init: function() {
               this.el.addEventListener('click', e => {
                 console.log('Model Clicked');
-                  alert('Model clicked!');
+                //alert('Model clicked!');
+                document.getElementById("click-confirm").innerHTML = "CLICK CONFIRMED";
               });
           }
       });
@@ -57,12 +58,13 @@
   <body style="margin: 0; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; z-index: 1; font-weight: bold; font-family: sans-serif;">
       <!--p style="color: red">TARGET:<br>43.082211714977646° N, -77.68317382726666° W</p-->
-      <p style="color: rgb(0, 255, 0)" id="current-location"></p>
+      <p style="color: rgb(0, 255, 255)" id="current-location"></p>
+      <p style="color: rgb(0, 210, 0)" id="click-confirm">click sphere</p>
     </div>
-    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: true' renderer='antialias: true; alpha: true'>
       <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-      <!-- GPS location: 43.08215642542073° N, -77.68320066083653° W -->
-      <a-entity material='color: blue' geometry='primitive: sphere' gps-new-entity-place="latitude: 43.08215; longitude: -77.68320" scale="0.5 0.5 0.5"></a-entity>
+      <!-- GPS location: 43.082211714977646° N, -77.68317382726666° W -->
+      <a-entity material='color: blue' geometry='primitive: sphere' gps-new-entity-place="latitude: 43.08221; longitude: -77.68317" scale="0.5 0.5 0.5" clicker></a-entity>
     </a-scene>
     <!--a-scene embedded arjs vr-mode-ui="enabled: false" raycaster cursor="rayOrigin: mouse" renderer="antialias: true; alpha: true">
       <!- Marker ->
