@@ -7,29 +7,71 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex.js"></script>
     <!-- AR.js A-Frame components -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <!-- AR.js Location -->
+    <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
+
     <script>
     AFRAME.registerComponent('clicker', {
           init: function() {
               this.el.addEventListener('click', e => {
+                console.log('Model Clicked');
                   alert('Model clicked!');
               });
           }
       });
   </script>
+
+  <!-- GPS location feed-->
+  <script>
+    //const x = document.getElementById("current-location");
+    let posStr;
+    
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    
+    function showPosition(position) {
+      posStr = "Lat: " + position.coords.latitude + " Long: " + position.coords.longitude;
+      document.getElementById("current-location").innerHTML = posStr;
+    }
+
+    function updateLocationFeed() {
+      console.log("updating pos: " + posStr);
+      getLocation();
+      setTimeout(updateLocationFeed, 1000);
+    }
+
+    updateLocationFeed();
+    </script>
+
     <title>Simple AR Scene</title>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs vr-mode-ui="enabled: false" raycaster cursor="rayOrigin: mouse" renderer="antialias: true; alpha: true">
-      <!-- Marker -->
+    <div style="position: absolute; top: 0; left: 0; z-index: 1; font-weight: bold; font-family: sans-serif;">
+      <p style="color: red">TARGET: 43.082106° N,-77.6832224° W</p>
+      <p style="color: rgb(0, 255, 0)" id="current-location"></p>
+    </div>
+    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+      <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
+      <!-- GPS location: 43.082106° N,-77.6832224° W -->
+      <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 43.084007; longitude: -77.675633" scale="5 5 5"></a-entity>
+    </a-scene>
+    <!--a-scene embedded arjs vr-mode-ui="enabled: false" raycaster cursor="rayOrigin: mouse" renderer="antialias: true; alpha: true">
+      <!- Marker ->
       <a-marker preset="hiro">
+        <a-box position="0 0.5 0" color="red"></a-box>
         <a-entity
           position="0 0 0"
           scale="0.05 0.05 0.05"
-          gltf-model="./models/scene.gltf"
+          gltf-model="https://cdn.jsdelivr.net/gh/thomasismartinez/igme480-thomasmartinez/blob/main/workshop%201/models/scene.gltf"
           clicker
         ></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
-    </a-scene>
+    </a-scene-->
   </body>
 </html>
