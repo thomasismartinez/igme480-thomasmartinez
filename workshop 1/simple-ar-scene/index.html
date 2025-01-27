@@ -24,6 +24,8 @@
   <!-- GPS location feed-->
   <script>
     //const x = document.getElementById("current-location");
+    let lats = [];
+    let longs = [];
     let posStr;
     
     function getLocation() {
@@ -35,7 +37,9 @@
     }
     
     function showPosition(position) {
-      posStr = "Lat: " + position.coords.latitude + " Long: " + position.coords.longitude;
+      lats.push(position.coords.latitude);
+      longs.push(position.coords.longitude);
+      posStr = `CURRENT:<br>${position.coords.latitude}° N, ${position.coords.longitude}° W`;
       document.getElementById("current-location").innerHTML = posStr;
     }
 
@@ -52,13 +56,13 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; z-index: 1; font-weight: bold; font-family: sans-serif;">
-      <p style="color: red">TARGET: 43.082106° N,-77.6832224° W</p>
+      <!--p style="color: red">TARGET:<br>43.082211714977646° N, -77.68317382726666° W</p-->
       <p style="color: rgb(0, 255, 0)" id="current-location"></p>
     </div>
     <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
       <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-      <!-- GPS location: 43.082106° N,-77.6832224° W -->
-      <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 43.084007; longitude: -77.675633" scale="5 5 5"></a-entity>
+      <!-- GPS location: 43.08215642542073° N, -77.68320066083653° W -->
+      <a-entity material='color: blue' geometry='primitive: sphere' gps-new-entity-place="latitude: 43.08215; longitude: -77.68320" scale="0.5 0.5 0.5"></a-entity>
     </a-scene>
     <!--a-scene embedded arjs vr-mode-ui="enabled: false" raycaster cursor="rayOrigin: mouse" renderer="antialias: true; alpha: true">
       <!- Marker ->
